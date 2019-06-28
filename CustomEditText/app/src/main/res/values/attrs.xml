@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="QEditText">
+        <attr name="hint" format="string" />
+        <attr name="text" format="string" />
+        <attr name="startIconDrawable" format="reference" />
+        <attr name="endIconDrawable" format="reference" />
+        <attr name="endIconTint" format="color" />
+        <attr name="endIconVisible" format="boolean" />
+        <attr name="passwordToggleEnabled" format="boolean"/>
+        <attr name="android:imeOptions"/>
+        <attr name="android:inputType"/>
+    </declare-styleable>
+
+</resources>
