@@ -5,9 +5,13 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -171,4 +175,34 @@ class QEditText : LinearLayout {
         setEndDrawableVisibility(true)
     }
 
+    fun requestInputFocus(){
+        mTextInputEditText.requestFocus()
+    }
+
+    fun afterTextChanged(afterTextChanged: (String) -> Unit) {
+        mTextInputEditText.afterTextChanged(afterTextChanged)
+    }
+
+    fun afterFocusChanged(afterFocusChanged: (Boolean) -> Unit){
+        mTextInputEditText.setOnFocusChangeListener { _, hasFocus ->
+            afterFocusChanged.invoke(hasFocus)
+        }
+    }
+
+    fun setOnEditorActionListener(l: (actionId: Int, event: KeyEvent?) -> Boolean){
+        mTextInputEditText.setOnEditorActionListener{ _, actionId, event ->
+            l.invoke(actionId,event)
+        }
+    }
+}
+
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    })
 }
